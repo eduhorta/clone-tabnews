@@ -37,8 +37,8 @@ async function runPendingMigrations() {
       ...defaultMigrationOptions,
       dbClient: dbClient,
       dryRun: false,
-    });    
-    return migratedMigrations
+    });
+    return migratedMigrations;
   } catch (error) {
     console.error(error);
     throw error;
@@ -48,7 +48,8 @@ async function runPendingMigrations() {
 }
 
 const migrator = {
-  listPendingMigrations,runPendingMigrations
+  listPendingMigrations,
+  runPendingMigrations,
 };
 
 export default migrator;
