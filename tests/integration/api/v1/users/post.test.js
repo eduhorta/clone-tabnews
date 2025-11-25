@@ -75,5 +75,42 @@ describe("POST /api/v1/users", () => {
         status_code: 400,
       });
     });
+    test("With duplicated 'username'", async () => {
+      const response1 = await fetch("http://localhost:3000/api/v1/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "usernameduplicado",
+          email: "duplicado1@email.dev",
+          password: "senha123",
+        }),
+      });
+
+      expect(response1.status).toBe(201);
+
+      const response2 = await fetch("http://localhost:3000/api/v1/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "Usernameduplicado",
+          email: "duplicado2@email.dev",
+          password: "senha123",
+        }),
+      });
+
+      expect(response2.status).toBe(400);
+
+      const response2Body = await response2.json();
+      expect(response2Body).toEqual({
+        name: "ValidationError",
+        message: "O username informado já está sendo utilizado.",
+        action: "Utilize outro username para realizar o cadastro.",
+        status_code: 400,
+      });
+    });
   });
 });
