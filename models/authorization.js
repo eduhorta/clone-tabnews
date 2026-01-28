@@ -5,6 +5,14 @@ function can(user, feature, resource) {
     authorized = true;
   }
 
+  if (feature === "update:user" && resource) {
+    authorized = false;
+
+    if (user.id === resource.id) {
+      authorized = true;
+    }
+  }
+
   return authorized;
 }
 
